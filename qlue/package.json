@@ -14,7 +14,7 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "mocha": "^5.2.0",
-    "unit.js": "^2.0.0"
+    "unit.js": "^2.1.1"
   },
   "dependencies": {
     "dotenv": "^6.1.0",
