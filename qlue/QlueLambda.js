@@ -6,6 +6,7 @@ var QlueLambda = function functionQlueLambda(){
   require('dotenv').config() // Config
   this.http = require('http');
   this.https = require('https');
+  this.moment = require("moment");
 
 }
 
@@ -20,20 +21,19 @@ QlueLambda.prototype = {
 	_filterResults: function( city, results ) {
 		var self = this;
 		// For each result:
-		var result = results.shift();
-		while( result ) {
+		// var result = results.shift();
+		results.forEach(function( result ) {
       if ( Date.parse(result.timestamp+'+0700') < new Date().getTime() - Number(process.env.LOAD_PERIOD)) {
 				// This result is older than our cutoff, stop processing
 				// TODO What date to use? transform to readable. timezone
 				console.log( "QlueDataSource > poll > processResults: Result " + result.id + " older than maximum configured age of " + Number(process.env.LOAD_PERIOD) / 1000 + " seconds" );
-				break;
 			} else {
         // Process this result
         var report = {};
         // Assign post_id
         report.post_id = result.id;
         // Fix timestamp
-        report.created_at = new Date(result.timestamp+'+0700').toISOString();
+        report.created_at = this.moment(new Date("16 Feb 2020 08:20 PM"+'+0700')).format('YYYY-MM-DDTHH:mm:ssZ');
         // Get text
         if (result.description === undefined){
           report.text = '';
@@ -66,8 +66,7 @@ QlueLambda.prototype = {
           self._saveResult( city, report );
         }
 			}
-			result = results.shift();
-		}
+		});
 
 	},
 
@@ -83,6 +82,7 @@ QlueLambda.prototype = {
        //self.insert.report(city, result);
 
        result.qlue_city = city;
+       console.log(JSON.stringify(result));
 
        var options = {
          "method": "POST",
