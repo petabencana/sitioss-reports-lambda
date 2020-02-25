@@ -33,7 +33,7 @@ QlueLambda.prototype = {
         // Assign post_id
         report.post_id = result.id;
         // Fix timestamp
-        report.created_at = self.moment(new Date("16 Feb 2020 08:20 PM"+'+0700')).format('YYYY-MM-DDTHH:mm:ssZ');
+        report.created_at = self.moment(new Date(result.timestamp+'+0700')).format('YYYY-MM-DDTHH:mm:ssZ');
         // Get text
         if (result.description === undefined){
           report.text = '';
