@@ -1,6 +1,6 @@
-cognicity-reports-lambda
+sitioss-reports-lambda
 ========================
-Data connectors for CogniCity using AWS Lambda functions
+Data connectors for Siti OSS using AWS Lambda functions
 
 ## Current connectors
 1. Qlue
